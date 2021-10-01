@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour {
             if(Input.GetKey("q")){
                 SceneManager.LoadScene("MenuLevel");
             }
+            if(Input.GetKey("g")) 
+            {
+                FindObjectOfType<highScore>().Reset();
+            }
         }
     }
 }

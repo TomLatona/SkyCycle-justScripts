@@ -9,6 +9,10 @@ public class playerCollision : MonoBehaviour {
 
 	void OnCollisionEnter (Collision collisionInfo) { 
 		if (collisionInfo.collider.tag == "Obstacle"){ 
+			Debug.Log("collision occured");
+			//remove constraints on player rigidbody y axis when collision with car
+			playa.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+			
 			mov.enabled = false;
 			float playerFinalPosition = playa.transform.position.z/10;
 
@@ -18,6 +22,7 @@ public class playerCollision : MonoBehaviour {
 
 			Invoke("removePlayer", delay);
 			FindObjectOfType<GameManager>().CompleteLevel(playerFinalPosition);
+			FindObjectOfType<highScore>().setNewHS(playerFinalPosition);
 		}
 	}
 
@@ -33,8 +38,13 @@ public class playerCollision : MonoBehaviour {
 		playa.SetActive(false);
 	}
 
-	void FixedUpdate(){ //checks player position on y, end game if too high or low
-		if(playa.transform.position.y < -1 || playa.transform.position.y > 10){
+	void FixedUpdate()
+	{ 	//checks if player falls off side of road
+		if(playa.transform.position.x < -15 || playa.transform.position.x > 16 || playa.transform.position.y > 10)
+		{	//removes position constraints if player falls off the side of road
+			playa.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+			Debug.Log("offroad");
+
 			mov.enabled = false;
 			float playerFinalPosition = playa.transform.position.z/10;
 
@@ -45,5 +55,6 @@ public class playerCollision : MonoBehaviour {
 			Invoke("removePlayer", delay);
 			FindObjectOfType<GameManager>().CompleteLevel(playerFinalPosition);
 		}
+		
 	}
 }

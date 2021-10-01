@@ -11,4 +11,7 @@ public class finalScore : MonoBehaviour
     void Start(){
         finSco.text = scoreNumber.ToString("0");
     }  
+
+    // GameObject hs = GameObject.Find("highScore");
+    // hs.GetComponent(setNewHS(finSco));
 } 
